@@ -1,0 +1,20 @@
+Long Sword/8
+Dagger/4
+Hand Axe/6
+Javelin/6
+Mace/6
+Light Hammer/4
+Sickle/4
+Spear/6
+Battle Axe/8
+Flail/8
+Glaive/10
+Great Axe/12
+Great Sword/12
+Halberd/10
+Lance/12
+Maul/12
+Rapier/8
+Scimitar/6
+Short Sword/6
+War Hammer/8

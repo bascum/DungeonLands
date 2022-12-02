@@ -1,0 +1,12 @@
+Serrated/1
+When damage is rolled for an attack with this item if the damage is equal to max damage - (rarity of the weapon) target is now bleeding. each turn following they will take 1d4 damage at the end of their turn unless they succeed on a DC 10 + (dmg inflicted / 2) medicine check
+Heavy/1
+This weapon can only be wielded by a character with a 12 + (rarity) or higher strength score and if it had the light property it loses that property. When an attack is rolled with this weapon add the rarity of the weapon a second time to the damage roll. This weapon has advantage on attacks meant to break objects.
+Heated/2
+This weapon is magically heated and is always red hot to the touch although it does not appear to be. when an attack is made with this weapon add 1d6 + rarity fire damage. If the weapon would normally cause the target to blead that does not happen.
+Dragon Slayer/3
+This weapon has advantage on any attacks against creatures that are either dragons or reasonably related to dragons. In addition when damage is rolled against a creature affected add (rarity) d6 extra damage.
+Precise/2
+This weapon lowers the threshold to critically strike by the rartity of the weapon divided by 2 (rounded down). For example. If a fighter has a critical on a 19 or 20 and this weapon is rarity 3 they now critically strike on a roll of 18-20.
+Bright/1
+This weapon has been enchanted to glow brightly. In dim light this item will function as a torch and give off light in a 60 foot sphere. If a creature has a vulnerability to bright lights they will have disadvantage attacking you as long as the weapon is unsheathed.
