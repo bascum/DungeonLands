@@ -32,6 +32,12 @@ int main()
 		{
 			case 1:
 				addItem();
+				break;
+
+			case 2:
+				myInv.addRandItem();
+				break;
+
 		}
 	}
 }

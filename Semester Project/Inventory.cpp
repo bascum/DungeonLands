@@ -52,7 +52,9 @@ void Inventory::addRandItem()
 {
 	char userChoice = NULL;
 	std::cout << "\n***Is this a Normal Item or a Special Item? (N/S): ";
-	userChoice = 'S';
+	std::cin.ignore();
+	std::cin.clear();
+	std::cin >> userChoice;
 
 	if (userChoice == 'N' || userChoice == 'n')
 	{
