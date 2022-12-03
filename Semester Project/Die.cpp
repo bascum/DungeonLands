@@ -7,6 +7,11 @@ Die::Die(int s)
 	sides = s;
 }
 
+Die::Die()
+{
+	sides = 20;
+}
+
 int Die::roll()
 {
 	srand(time(NULL));

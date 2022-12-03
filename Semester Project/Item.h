@@ -8,7 +8,6 @@ struct Trait
 public:
 	Trait(std::string, std::string, int);
 
-private:
 	std::string name;
 	std::string traitDescription;
 	int req; //short for requirement
@@ -29,10 +28,10 @@ private:
 
 public:
 	Item(std::string, int, int = 0);
+	Item(std::string, int, Trait*);
 	Item() = default;
 
 	std::string getType();
-	void setType();
 
 	int getDmgDie();
 };

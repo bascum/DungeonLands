@@ -15,9 +15,27 @@ Inventory::Inventory()
 
 void Inventory::addItem(std::string t, int d)
 {
-	Item temp(t, d);
+	char chChoice;
+	int intChoice = 0;
+	std::cout << "\nWill the Item have a trait? (Y/N): ";
+	std::cin >> chChoice;
 
-	Node* newItem = new Node(temp);
+	Item* tPtr = NULL;
+
+	if (chChoice == 'Y' || chChoice == 'y')
+	{
+		std::cout << "\n\n*** Please select a trait from the list below ***\n";
+		showTraitList();
+		std::cin >> intChoice;
+
+		tPtr = new Item(t, d, traitList[intChoice - 1]);
+	}
+	else
+	{
+		tPtr = new Item(t, d);
+	}
+
+	Node* newItem = new Node(*tPtr);
 
 	if (head == NULL)
 	{
@@ -87,6 +105,39 @@ void Inventory::displayInv()
 		}
 	} while (tempHead->next != NULL);
 }
+
+void Inventory::showTraitList()
+{
+	for (int i = 0; i < traitList.size(); i++)
+	{
+		std::cout << i + 1 << ") " << traitList[i]->name << " : Required Rarity (" << traitList[i]->req << "\n----(" << traitList[i]->traitDescription << std::endl;
+	}
+}
+
+/*
+Trait Inventory::findTrait(int i)
+{
+	if (i < traitList.size())
+	{
+		return *traitList[i];
+	}
+	else
+	{
+		throw "Error Out of Bounds";
+	}
+}
+
+Item Inventory::findItem(int i)
+{
+	if (i < itemTypeList.size())
+	{
+		return *itemTypeList[i];
+	}
+	else
+	{
+		throw "Error Out of Bounds";
+	}
+}*/
 
 void Inventory::loadItemTypes()
 {

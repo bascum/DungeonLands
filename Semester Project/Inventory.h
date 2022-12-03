@@ -21,9 +21,15 @@ class Inventory
 {
 public:
 	Inventory();
+
 	void addRandItem();
 	void addItem(std::string, int);
+
 	void displayInv();
+
+	/*
+	Trait findTrait(int);
+	Item findItem(int);*/
 
 private:
 	Node* head = NULL;
@@ -33,6 +39,8 @@ private:
 
 	void loadItemTypes();
 	void loadTraits();
+
+	void showTraitList();
 };
 
 #endif

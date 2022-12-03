@@ -7,6 +7,7 @@ class Die
 {
 public:
 	Die(int);
+	Die();
 	int roll();
 
 	void changeSides(int);
