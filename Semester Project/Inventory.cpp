@@ -46,6 +46,7 @@ void Inventory::addItem(std::string t, int d)
 		newItem->next = head;
 		head = newItem;
 	}
+	invSize++;
 }
 
 void Inventory::addRandItem() 
@@ -79,7 +80,9 @@ void Inventory::addRandItem()
 		Die d20(20);
 		WeightedDie wD20(20);
 		int unweightedRoll = d20.roll() - 1;
-		Item tempItem(itemTypeList[unweightedRoll]->getType(), itemTypeList[unweightedRoll]->getDmgDie(), wD20.genRoll() + 1);
+		int rarityMax = wD20.genRoll() / 5;
+
+		Item tempItem(itemTypeList[unweightedRoll]->getType(), itemTypeList[unweightedRoll]->getDmgDie(), getRandTrait(rarityMax) );
 
 		Node* newItem = new Node(tempItem);
 
@@ -93,26 +96,51 @@ void Inventory::addRandItem()
 			head = newItem;
 		}
 	}
+	invSize++;
+}
+
+void Inventory::delItem()
+{
+	displayInv();
+	int choice = 0;
+	char yesNo = 'n';
+	
+	std::cout << "\nPlease input the position of the item you would like to delete: ";
+	std::cin >> choice;
+
+	if (choice > -1 && choice <= invSize)
+	{
+		Node* tempNode = findNode(choice - 1);
+		std::cout << "\nAre you sure you would like to delete (" << choice << ") " << tempNode->data.getType() << " (Y/N): ";
+		std::cin >> yesNo;
+
+		if (yesNo == 'Y' || yesNo == 'y')
+		{
+			delNode(choice - 1);
+		}
+	}
 }
 
 void Inventory::displayInv()
 {
 	Node* tempHead = head;
 	int count = 1;
-	do {
-		std::cout << "\n" << count << ") NAME: " << tempHead->data.getType() << "\n   DMG : " << tempHead->data.getDmgDie();
-		if (tempHead->next != NULL)
-		{
+	if (invSize > 0)
+	{
+		do {
+			std::cout << "\n" << count << ") NAME: " << tempHead->data.getType() << "\n   DMG : " << tempHead->data.getDmgDie() << "\n   Trait : " << tempHead->data.getTraitName();
+			//if (tempHead->next != NULL)
 			tempHead = tempHead->next;
-		}
-	} while (tempHead->next != NULL);
+			count++;
+		} while (tempHead != NULL);
+	}
 }
 
 void Inventory::showTraitList()
 {
 	for (int i = 0; i < traitList.size(); i++)
 	{
-		std::cout << i + 1 << ") " << traitList[i]->name << " : Required Rarity (" << traitList[i]->req << "\n----(" << traitList[i]->traitDescription << std::endl;
+		std::cout << std::endl << i + 1 << ") " << traitList[i]->name << " : Required Rarity (" << traitList[i]->req << "\n----(" << traitList[i]->traitDescription << std::endl;
 	}
 }
 
@@ -212,4 +240,65 @@ void Inventory::loadTraits()
 
 
 	FILE.close();
+}
+
+Trait* Inventory::getRandTrait(int max)
+{
+	Die randTrait(traitList.size());
+
+	Trait* myTrait = traitList[randTrait.roll() - 1];
+
+	while (myTrait->req > max)
+	{
+		myTrait = traitList[randTrait.roll()];
+	}
+
+	return myTrait;
+}
+
+void Inventory::delNode(int pos)
+{
+	int count = 0;
+	Node* prevNode = NULL;
+	Node* tempNode = head;
+	Node* nextNode = tempNode->next;
+
+	while (count != pos)
+	{
+		prevNode = tempNode;
+		tempNode = tempNode->next;
+		nextNode = tempNode->next;
+		count++;
+	}
+	if (count == pos)
+	{
+		prevNode->next = nextNode;
+		delete tempNode;
+	}
+	invSize--;
+}
+
+Node* Inventory::findNode(int pos)
+{
+	int count = 0;
+	Node* tempNode = head;
+
+	while (count != pos)
+	{
+		tempNode = tempNode->next;
+		count++;
+	}
+	
+	if (tempNode != head && pos != 0)
+	{
+		return tempNode;
+	}
+	else if (tempNode == head && pos == 0)
+	{
+		return tempNode;
+	}
+	else
+	{
+		throw "Error in Finding Node";
+	}
 }

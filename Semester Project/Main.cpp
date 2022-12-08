@@ -11,6 +11,7 @@ using namespace std;
 Inventory myInv;
 
 void addItem();
+void delItem();
 
 
 int main()
@@ -21,6 +22,9 @@ int main()
 	while (choice != 4)
 	{
 		choice = 0;
+
+		myInv.displayInv();
+
 		cout << "\n***MENU***\n\n";
 		cout << "1) Add a specific Item\n";
 		cout << "2) Add a Random Item\n";
@@ -38,6 +42,16 @@ int main()
 				myInv.addRandItem();
 				break;
 
+			case 3:
+				myInv.delItem();
+				break;
+
+			case 4:
+				break;
+
+			default:
+				cout << "\nInput not recognized\n";
+				break;
 		}
 	}
 }
@@ -46,23 +60,26 @@ void addItem()
 {
 	string tempType;
 	int dmgDie;
-	char choice;
+	char choice = 'N';
 
 	char clearBuffer;
 
-	cout << "\nPlease enter the type of Item you would like to add: ";
-	cin.clear();
-	cin.ignore();
-	getline(cin, tempType);
-
-	cout << "\nPlease enter the Damage Die for this weapon: ";
-	cin >> dmgDie;
-
-	cout << "Your item will be a, " << tempType << ", with a damage die of, " << dmgDie << ". Is this correct? (Y/N): ";
-	cin >> choice;
-
-	if (choice == 'Y' || choice == 'y')
+	while (choice != 'Y' || choice != 'y')
 	{
-		myInv.addItem(tempType, dmgDie);
+		cout << "\nPlease enter the type of Item you would like to add: ";
+		cin.clear();
+		cin.ignore();
+		getline(cin, tempType);
+
+		cout << "\nPlease enter the Damage Die for this weapon: ";
+		cin >> dmgDie;
+
+		cout << "Your item will be a, " << tempType << ", with a damage die of, " << dmgDie << ". Is this correct? (Y/N): ";
+		cin >> choice;
+
+		if (choice == 'Y' || choice == 'y')
+		{
+			myInv.addItem(tempType, dmgDie);
+		}
 	}
 }

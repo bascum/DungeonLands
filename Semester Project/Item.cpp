@@ -24,6 +24,7 @@ Item::Item(std::string n, int d, Trait* t)
 	dmgDie = d;
 	rarity = t->req;
 	itemTrait = t;
+	hasTrait = true;
 }
 
 std::string Item::getType()
@@ -34,4 +35,16 @@ std::string Item::getType()
 int Item::getDmgDie()
 {
 	return dmgDie;
+}
+
+std::string Item::getTraitName()
+{
+	if (itemTrait != NULL)
+	{
+		return itemTrait->name;
+	}
+	else
+	{
+		return "None";
+	}
 }

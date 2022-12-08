@@ -17,7 +17,7 @@ class Item
 {
 private:
 
-	bool hasData = false;
+	bool hasTrait = false;
 	std::string type;
 
 
@@ -32,6 +32,7 @@ public:
 	Item() = default;
 
 	std::string getType();
+	std::string getTraitName();
 
 	int getDmgDie();
 };

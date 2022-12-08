@@ -4,17 +4,18 @@
 
 Die::Die(int s)
 {
+	srand(time(NULL));
 	sides = s;
 }
 
 Die::Die()
 {
+	srand(time(NULL));
 	sides = 20;
 }
 
 int Die::roll()
 {
-	srand(time(NULL));
 	return rand() % sides + 1;
 }
 

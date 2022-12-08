@@ -27,15 +27,18 @@ public:
 
 	void displayInv();
 
-	/*
-	Trait findTrait(int);
-	Item findItem(int);*/
+	void delItem();
 
 private:
 	Node* head = NULL;
 	int invSize = 0;
 	std::vector<Item*> itemTypeList;
 	std::vector<Trait*> traitList;
+
+	void delNode(int);
+	Node* findNode(int);
+
+	Trait* getRandTrait(int);
 
 	void loadItemTypes();
 	void loadTraits();
