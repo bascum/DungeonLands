@@ -28,7 +28,7 @@ int main()
 		cout << "\n***MENU***\n\n";
 		cout << "1) Add a specific Item\n";
 		cout << "2) Add a Random Item\n";
-		cout << "3) View Inventory\n";
+		cout << "3) Delete Item\n";
 		cout << "4) END\n";
 		cin >> choice;
 
