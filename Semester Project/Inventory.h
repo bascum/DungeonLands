@@ -6,7 +6,7 @@
 #define INVENTORY_H
 
 
-struct Node
+struct Node//Basic node with data and a next keyword.
 {
 	Node(Item b, Node* next = NULL)
 	{
@@ -20,17 +20,18 @@ struct Node
 class Inventory
 {
 public:
-	Inventory();
+	Inventory(); //Constructor
 
-	void addRandItem();
-	void addItem(std::string, int);
+	void addRandItem(); // generates a random item
+	void addItem(std::string, int); // generates a custom item which takes input from the user
 
-	void displayInv();
+	void displayInv(); // Displays a list of all the items currently in the list
 
-	void delItem();
+	void delItem(); //Deletes and item
 
 private:
 	Node* head = NULL;
+	Node* sorted = NULL;
 	int invSize = 0;
 	std::vector<Item*> itemTypeList;
 	std::vector<Trait*> traitList;
@@ -44,6 +45,8 @@ private:
 	void loadTraits();
 
 	void showTraitList();
+	void insertionSort();
+	void sort(Node*);
 };
 
 #endif

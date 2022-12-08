@@ -48,3 +48,8 @@ std::string Item::getTraitName()
 		return "None";
 	}
 }
+
+int Item::getRarity()
+{
+	return rarity;
+}

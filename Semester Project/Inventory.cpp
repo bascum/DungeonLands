@@ -9,18 +9,23 @@
 
 Inventory::Inventory()
 {
+	//Constructor runs these 2 funtions to pull data from txt files and populate the vectors
 	loadItemTypes();
 	loadTraits();
 }
 
 void Inventory::addItem(std::string t, int d)
+/*Eventually this will be editted to take no parameters and have the user input the */
 {
-	char chChoice;
+	char chChoice; //Function needs to take both an int choice and a Char choice so initialize those
 	int intChoice = 0;
-	std::cout << "\nWill the Item have a trait? (Y/N): ";
-	std::cin >> chChoice;
 
-	Item* tPtr = NULL;
+	Item* tPtr = NULL; //Initialize the item pointer that will be used to make the item that is then given to the node
+
+
+	std::cout << "\nWill the Item have a trait? (Y/N): "; //If the user selects Y they are given a list of traits to pick.
+	std::cin >> chChoice;									//otherwise they will not have a trait
+
 
 	if (chChoice == 'Y' || chChoice == 'y')
 	{
@@ -28,16 +33,16 @@ void Inventory::addItem(std::string t, int d)
 		showTraitList();
 		std::cin >> intChoice;
 
-		tPtr = new Item(t, d, traitList[intChoice - 1]);
+		tPtr = new Item(t, d, traitList[intChoice - 1]);//Item is made and given a pointer
 	}
 	else
 	{
-		tPtr = new Item(t, d);
+		tPtr = new Item(t, d); //Same item being made but without giving it the trait
 	}
 
-	Node* newItem = new Node(*tPtr);
+	Node* newItem = new Node(*tPtr); //Node is made by passing through the item
 
-	if (head == NULL)
+	if (head == NULL)				//IF there are already nodes in the list adds the node to the top otherwise sets the node as top
 	{
 		head = newItem;
 	}
@@ -46,26 +51,33 @@ void Inventory::addItem(std::string t, int d)
 		newItem->next = head;
 		head = newItem;
 	}
-	invSize++;
+	invSize++; //trasks amount of Nodes/ Items
 }
 
 void Inventory::addRandItem() 
 {
+													//Familiar user input
 	char userChoice = NULL;
 	std::cout << "\n***Is this a Normal Item or a Special Item? (N/S): ";
-	std::cin.ignore();
-	std::cin.clear();
+
+
+	std::cin.ignore();								//Had an issue with the buffer keeping characters so cleared it
+	std::cin.clear();								//Then took the user inut character.
 	std::cin >> userChoice;
 
 	if (userChoice == 'N' || userChoice == 'n')
 	{
-		Die tempD20(20);
-		int roll = tempD20.roll() - 1;
-		Item tempItem(itemTypeList[roll]->getType(), itemTypeList[roll]->getDmgDie());
+		Die tempD20(itemTypeList.size());			//A die is made to generate random numbers between 1 - the number of item types
 		
-		Node* newItem = new Node(tempItem);
+		int roll = tempD20.roll() - 1;				//Die is rolled to figure out which item it will be (This could be directly within the next statement)
+		
+		
+		Item tempItem(itemTypeList[roll]->getType(), itemTypeList[roll]->getDmgDie());
+		//New Item is made using the roll. Probably could just pass a dereferenced itemTypeList[i] to the next statement
+		
+		Node* newItem = new Node(tempItem);			//Create a node with the recently created item
 
-		if (head == NULL)
+		if (head == NULL)							//Add node to the top of list (Familiar stuff)
 		{
 			head = newItem;
 		}
@@ -77,14 +89,20 @@ void Inventory::addRandItem()
 	}
 	else if (userChoice == 'S' || userChoice == 's')
 	{
-		Die d20(20);
-		WeightedDie wD20(20);
-		int unweightedRoll = d20.roll() - 1;
-		int rarityMax = wD20.genRoll() / 5;
+		Die d20(20);								//Copy and paste of previous code that will make a die
+		int unweightedRoll = d20.roll() - 1;		//Then roll it
+
+		WeightedDie wD20(20);						//Since the user wanted their item to have a trait that means it needs a 
+		int rarityMax = wD20.genRoll() / 5;			//trait. Traits are organized into rarities so the users are not given a great trait
+													//too often
+		//Above will generate a random number between 1 and 20 with a much higher probability of a 1 than a 20. then the answer is divided by
+		//5 to get a weighted roll between 1 and 5
 
 		Item tempItem(itemTypeList[unweightedRoll]->getType(), itemTypeList[unweightedRoll]->getDmgDie(), getRandTrait(rarityMax) );
-
-		Node* newItem = new Node(tempItem);
+		// Same as no trait but also passes a trait* as last parameter using a special private funtion that takes the max rarity
+		
+		
+		Node* newItem = new Node(tempItem);			//Nothing new here just creating new node and adding to top of list
 
 		if (head == NULL)
 		{
@@ -96,25 +114,34 @@ void Inventory::addRandItem()
 			head = newItem;
 		}
 	}
-	invSize++;
+	else
+	{
+		invSize--;
+	}
+	invSize++;										//Item was added so track that
 }
 
 void Inventory::delItem()
 {
-	displayInv();
-	int choice = 0;
+	displayInv();									//The inventory will most likely be on screen but still want to show it again
+
+
+	int choice = 0;									//User will have multiple choices so make those variables
 	char yesNo = 'n';
 	
 	std::cout << "\nPlease input the position of the item you would like to delete: ";
-	std::cin >> choice;
+	std::cin >> choice;								//inv is displayed with numbered positions so this takes the choice of which
+													//position member to delete
 
-	if (choice > -1 && choice <= invSize)
+	if (choice > 0 && choice <= invSize)			//if user puts negative or too high nothing happens
 	{
-		Node* tempNode = findNode(choice - 1);
-		std::cout << "\nAre you sure you would like to delete (" << choice << ") " << tempNode->data.getType() << " (Y/N): ";
-		std::cin >> yesNo;
+		Node* tempNode = findNode(choice - 1);		//Private funtion to return the mem address of the node	
 
-		if (yesNo == 'Y' || yesNo == 'y')
+
+		std::cout << "\nAre you sure you would like to delete (" << choice << ") " << tempNode->data.getType() << " (Y/N): ";
+		std::cin >> yesNo;							//Ask user to confirm before deleting
+			
+		if (yesNo == 'Y' || yesNo == 'y')			//Delete node if user wants to
 		{
 			delNode(choice - 1);
 		}
@@ -123,20 +150,20 @@ void Inventory::delItem()
 
 void Inventory::displayInv()
 {
+	insertionSort();
 	Node* tempHead = head;
 	int count = 1;
-	if (invSize > 0)
+	if (invSize > 0)								//if there is an item in inv displays a list of all items
 	{
 		do {
-			std::cout << "\n" << count << ") NAME: " << tempHead->data.getType() << "\n   DMG : " << tempHead->data.getDmgDie() << "\n   Trait : " << tempHead->data.getTraitName();
-			//if (tempHead->next != NULL)
+			std::cout << "\n" << count << ") NAME: " << tempHead->data.getType() << ". | Rarity: " << tempHead->data.getRarity() << "\n   DMG : " << tempHead->data.getDmgDie() << "\n   Trait : " << tempHead->data.getTraitName();
 			tempHead = tempHead->next;
 			count++;
 		} while (tempHead != NULL);
 	}
 }
 
-void Inventory::showTraitList()
+void Inventory::showTraitList()						//This is a private function that shows the traits for the user to choose from
 {
 	for (int i = 0; i < traitList.size(); i++)
 	{
@@ -168,12 +195,12 @@ Item Inventory::findItem(int i)
 		throw "Error Out of Bounds";
 	}
 }*/
-
+													//Takes the contents of a txt file and creates Objects to load into a vector
 void Inventory::loadItemTypes()
 {
-	itemTypeList.clear();
+	itemTypeList.clear();							//Ensures there is no junk in the vector. I belive vecotrs always are clear but still
 
-	std::string tempT;
+	std::string tempT;								//Initialize all variables
 	std::string stringToInt;
 
 	Item* tempItem = NULL;
@@ -181,13 +208,16 @@ void Inventory::loadItemTypes()
 	int tempInt;
 
 	std::string fileName = "Melee_Items.txt";
-	std::ifstream FILE(fileName);
+	std::ifstream FILE(fileName);					//open the file for input into the program
 
 	while (!FILE.eof())
 	{
-		std::stringstream converter;
+		std::stringstream converter;				//make a stringstream object to later use to convert a strint to an int
+													//Could not use aiot() for some reason but have since forgotten the reason
 
-		getline(FILE, tempT, '/');
+
+		getline(FILE, tempT, '/');					//The way the file is formatted it will contain the name of the item followed by a 
+													//slash. 
 
 		getline(FILE, stringToInt);
 
@@ -250,7 +280,7 @@ Trait* Inventory::getRandTrait(int max)
 
 	while (myTrait->req > max)
 	{
-		myTrait = traitList[randTrait.roll()];
+		myTrait = traitList[randTrait.roll() - 1];
 	}
 
 	return myTrait;
@@ -300,5 +330,36 @@ Node* Inventory::findNode(int pos)
 	else
 	{
 		throw "Error in Finding Node";
+	}
+}
+
+void Inventory::insertionSort()
+{
+	sorted = NULL;
+	Node* current = head;
+
+	while (current != NULL) {
+		Node* next = current->next;
+
+		sort(current);
+
+		current = next;
+	}
+	head = sorted;
+}
+
+void Inventory::sort(Node* h)
+{
+	if (sorted == NULL || sorted->data.getRarity() >= h->data.getRarity()) {
+		h->next = sorted;
+		sorted = h;
+	}
+	else {
+		Node* current = sorted;
+		while (current->next != NULL && current->next->data.getRarity() < h->data.getRarity()) {
+			current = current->next;
+		}
+		h->next = current->next;
+		current->next = h;
 	}
 }

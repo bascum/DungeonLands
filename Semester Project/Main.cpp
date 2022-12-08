@@ -8,10 +8,9 @@
 
 using namespace std;
 
-Inventory myInv;
+Inventory myInv; //Inv is global since there will only be one per program 
 
-void addItem();
-void delItem();
+void addItem(); //This will add a specific item that comes from user input
 
 
 int main()
@@ -56,7 +55,7 @@ int main()
 	}
 }
 
-void addItem()
+void addItem()// takes user input and passes into the inventory class.
 {
 	string tempType;
 	int dmgDie;
@@ -64,7 +63,7 @@ void addItem()
 
 	char clearBuffer;
 
-	while (choice != 'Y' || choice != 'y')
+	while (choice == 'N' || choice == 'n')
 	{
 		cout << "\nPlease enter the type of Item you would like to add: ";
 		cin.clear();

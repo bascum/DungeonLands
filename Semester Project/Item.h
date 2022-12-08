@@ -33,6 +33,7 @@ public:
 
 	std::string getType();
 	std::string getTraitName();
+	int getRarity();
 
 	int getDmgDie();
 };
